@@ -6,7 +6,7 @@ The user enters a phone number, the system validates it and displays the country
 For country codes use the table on [the page](https://en.wikipedia.org/wiki/List_of_country_calling_codes), it is necessary to load data from it
 every time the service starts.
 
-## Description
+## Non-functional requirements
 
 ###### Backend:
 1. Java 11 or 17
