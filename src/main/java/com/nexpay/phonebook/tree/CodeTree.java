@@ -5,29 +5,32 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class PhoneTree {
+public class CodeTree {
     private final Map<String, TreeNode> tree = new HashMap<>();
 
-    public void put(int phoneCode, Set<Country> countries) {
-        put(String.valueOf(phoneCode), countries);
-    }
-    public void put(String phoneCode, Set<Country> countries) {
-        put(phoneCode, TreeNode.of(countries));
-    }
-
-    public void put(String phoneCode, TreeNode node) {
-        if (phoneCode.length() == 1) {
-            tree.put(phoneCode, node);
+    public void put(String phoneCode, Country country) {
+        var node = tree.get(phoneCode);
+        if (node != null) {
+            node.add(country);
         } else {
-            var currentTree = tree;
-            for (int i = 1; i < phoneCode.length(); i ++) {
-                var subCode = phoneCode.substring(0, i);
-                var subCodeNode = currentTree.get(subCode);
-                if (subCodeNode != null) {
-                    currentTree = subCodeNode.children();
+            if (phoneCode.length() == 1) {
+                tree.put(phoneCode, TreeNode.of(country));
+            } else {
+                var currentTree = tree;
+                for (int i = 1; i < phoneCode.length(); i ++) {
+                    var subCode = phoneCode.substring(0, i);
+                    var subCodeNode = currentTree.get(subCode);
+                    if (subCodeNode != null) {
+                        currentTree = subCodeNode.children();
+                    }
+                }
+                node = currentTree.get(phoneCode);
+                if (node == null) {
+                    currentTree.put(phoneCode, TreeNode.of(country));
+                } else {
+                    node.add(country);
                 }
             }
-            currentTree.put(phoneCode, node);
         }
     }
 
@@ -46,7 +49,7 @@ public class PhoneTree {
         } else {
             var currentTree = tree;
             TreeNode lastNode = null;
-            for (int i = 1; i < phone.length(); i ++) {
+            for (int i = 1; i <= phone.length(); i ++) {
                 var subCode = phone.substring(0, i);
                 var node = currentTree.get(subCode);
                 if (node != null) {
@@ -62,8 +65,8 @@ public class PhoneTree {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PhoneTree phoneTree = (PhoneTree) o;
-        return Objects.equals(tree, phoneTree.tree);
+        CodeTree codeTree = (CodeTree) o;
+        return Objects.equals(tree, codeTree.tree);
     }
 
     @Override
