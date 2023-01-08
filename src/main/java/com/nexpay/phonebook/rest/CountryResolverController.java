@@ -3,6 +3,7 @@ package com.nexpay.phonebook.rest;
 import com.nexpay.phonebook.resolver.CountryResolver;
 import com.nexpay.phonebook.rest.payload.CountryRequestPayload;
 import com.nexpay.phonebook.rest.payload.CountryResponsePayload;
+import com.nexpay.phonebook.tree.CodeCountries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class CountryResolverController {
     private CountryResolver countryResolver;
 
     @PostMapping("/country/resolve")
-    public ResponseEntity<?> getSearchResultViaAjax(
+    public ResponseEntity<CountryResponsePayload> resolveCountry(
             @Valid @RequestBody CountryRequestPayload search,
             Errors errors
     ) {
@@ -30,7 +31,7 @@ public class CountryResolverController {
                     .stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .collect(Collectors.joining(","));
-            return ResponseEntity.badRequest().body(new CountryResponsePayload(error, null, null));
+            return ResponseEntity.badRequest().body(CountryResponsePayload.of(error, CodeCountries.of()));
         }
 
         var codeCountries = countryResolver.resolve(search.phone());
