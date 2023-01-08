@@ -24,26 +24,17 @@ public class CountryResolverController {
             @Valid @RequestBody CountryRequestPayload search,
             Errors errors
     ) {
-
         if (errors.hasErrors()) {
             var error = errors
                     .getAllErrors()
                     .stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .collect(Collectors.joining(","));
-            return ResponseEntity.badRequest().body(new CountryResponsePayload(error, null));
+            return ResponseEntity.badRequest().body(new CountryResponsePayload(error, null, null));
         }
 
-        var countries = countryResolver.resolve(search.phone());
-
-        final String msg;
-        if (countries.isEmpty()) {
-            msg = "Country is not resolved!";
-        } else {
-            msg = "Success";
-        }
-
-        return ResponseEntity.ok(CountryResponsePayload.of(msg, countries));
+        var codeCountries = countryResolver.resolve(search.phone());
+        return ResponseEntity.ok(CountryResponsePayload.of(codeCountries));
     }
 
 }

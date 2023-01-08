@@ -1,11 +1,9 @@
 package com.nexpay.phonebook.resolver;
 
-import com.nexpay.phonebook.tree.Country;
-
-import java.util.Set;
+import com.nexpay.phonebook.tree.CodeCountries;
 
 public interface CountryResolver {
 
-    Set<Country> resolve(String phoneNumber);
+    CodeCountries resolve(String phoneNumber);
 
 }

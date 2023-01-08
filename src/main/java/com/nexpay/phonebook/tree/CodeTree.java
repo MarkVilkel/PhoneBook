@@ -14,7 +14,7 @@ public class CodeTree {
             node.add(country);
         } else {
             if (phoneCode.length() == 1) {
-                tree.put(phoneCode, TreeNode.of(country));
+                tree.put(phoneCode, TreeNode.of(phoneCode, country));
             } else {
                 var currentTree = tree;
                 for (int i = 1; i < phoneCode.length(); i ++) {
@@ -26,7 +26,7 @@ public class CodeTree {
                 }
                 node = currentTree.get(phoneCode);
                 if (node == null) {
-                    currentTree.put(phoneCode, TreeNode.of(country));
+                    currentTree.put(phoneCode, TreeNode.of(phoneCode, country));
                 } else {
                     node.add(country);
                 }
@@ -34,9 +34,9 @@ public class CodeTree {
         }
     }
 
-    public Set<Country> getCountries(String phone) {
+    public CodeCountries getCountries(String phone) {
         var node = getCountriesNode(phone);
-        return node == null ? Set.of() : Set.copyOf(node.countries());
+        return node == null ? null : new CodeCountries(node.code(), Set.copyOf(node.countries()));
     }
 
     private TreeNode getCountriesNode(String phone) {
