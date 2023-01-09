@@ -9,6 +9,8 @@ To launch tests with reports generation: mvn surefire-report:report
 ```
 After running go to the browser and browse to [address](http://localhost:8080/)
 
+Test reports could be found at /target/surefire-reports/surefire-report.html
+
 
 The user enters a phone number, the system validates it and displays the country or error message.
 For country codes use the table on [the page](https://en.wikipedia.org/wiki/List_of_country_calling_codes), it is necessary to load data from it
