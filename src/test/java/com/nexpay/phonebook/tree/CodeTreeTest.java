@@ -5,11 +5,12 @@ import org.junit.jupiter.api.Test;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class CodeTreeTest {
 
     @Test
-    void putGet() {
+    void getWhenFound() {
         var tree = new CodeTree();
 
         tree.put("1", new Country("USA"));
@@ -26,4 +27,12 @@ class CodeTreeTest {
         assertEquals(new CodeCountries("1", Set.of(new Country("USA"), new Country("Canada"))), tree.getCountries("1"));
     }
 
+    @Test
+    void getWhenNotFound() {
+        var tree = new CodeTree();
+        assertNull(tree.getCountries("321"));
+
+        tree.put("1", new Country("USA"));
+        assertNull(tree.getCountries("321"));
+    }
 }

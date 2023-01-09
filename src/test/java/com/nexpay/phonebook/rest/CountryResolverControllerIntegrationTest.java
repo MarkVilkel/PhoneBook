@@ -59,11 +59,12 @@ class CountryResolverControllerIntegrationTest {
     @Test
     void failToResolveCountry() throws Exception {
         var request = new JSONObject();
-        request.put("phone", "00013701231312");
+        var phone = "00013701231312";
+        request.put("phone", phone);
         var response = postCountryResolve(request);
         assertNotNull(response);
         assertTrue(response.getBoolean("error"));
-        assertEquals("Country is not resolved!", response.get("msg"));
+        assertEquals("Country is not resolved by phone " + phone, response.get("msg"));
         assertEquals("null", response.optString("phoneCode"));
         assertEquals(new JSONArray(), response.optJSONArray("countries"));
     }

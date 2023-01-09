@@ -38,7 +38,7 @@ class CountryResolverControllerMockTest {
         var request = new CountryRequestPayload("37128236723");
         var response = CountryResponsePayload.of(new CodeCountries("371", Set.of(new Country("Latvia"))));
 
-        when(service.resolveCountry(any(), any())).thenReturn(ResponseEntity.ok(response));
+        when(service.resolveCountry(any())).thenReturn(ResponseEntity.ok(response));
 
         mockMvc
                 .perform(post("/country/resolve")
@@ -54,10 +54,11 @@ class CountryResolverControllerMockTest {
 
     @Test
     void resolveCountryWithError() throws Exception {
-        var request = new CountryRequestPayload("37128236723");
-        var response = CountryResponsePayload.of(CodeCountries.of());
+        var phone = "37128236723";
+        var request = new CountryRequestPayload(phone);
+        var response = CountryResponsePayload.error("Country is not resolved by phone number " + phone);
 
-        when(service.resolveCountry(any(), any())).thenReturn(ResponseEntity.ok(response));
+        when(service.resolveCountry(any())).thenReturn(ResponseEntity.ok(response));
 
         mockMvc
                 .perform(post("/country/resolve")
@@ -67,7 +68,7 @@ class CountryResolverControllerMockTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(
-                        "{\"msg\":\"Country is not resolved!\",\"phoneCode\":null,\"countries\":[]}\"")
+                        "{\"msg\":\"Country is not resolved by phone number " + phone + "\",\"phoneCode\":null,\"countries\":[]}\"")
                 );
     }
 

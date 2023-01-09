@@ -23,6 +23,10 @@ public record CountryResponsePayload(boolean error, String msg, String phoneCode
         return of(false, msg, codeCountries);
     }
 
+    public static CountryResponsePayload error(String msg) {
+        return of(true, msg, CodeCountries.of());
+    }
+
     private static CountryResponsePayload of(boolean error, String msg, CodeCountries codeCountries) {
         return new CountryResponsePayload(
                 error,
