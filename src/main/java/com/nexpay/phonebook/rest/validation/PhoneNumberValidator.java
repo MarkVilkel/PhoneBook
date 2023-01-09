@@ -15,6 +15,7 @@ public class PhoneNumberValidator implements ConstraintValidator<PhoneNumber, St
         if (value == null) {
             return true;
         }
+        // Decided to keep things simple for this task so the phone number is just digits, without any '+', '-' and '()' symbols
         return Pattern.matches("[0-9]+", value);
     }
 

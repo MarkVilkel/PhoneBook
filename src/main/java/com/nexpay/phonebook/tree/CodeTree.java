@@ -5,6 +5,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * The class organizes country phone codes as tree for faster search:
+ * 61 -> Australia
+ *  \__89162 -> Cocos Islands (full code 6189162)
+ *  \__89164 –> Christmas Island (full code 6189164)
+ */
 public class CodeTree {
     private final Map<String, TreeNode> tree = new HashMap<>();
 
@@ -76,8 +82,6 @@ public class CodeTree {
 
     @Override
     public String toString() {
-        return "PhoneTree{" +
-                "tree=" + tree +
-                '}';
+        return "PhoneTree{" + "tree=" + tree + '}';
     }
 }

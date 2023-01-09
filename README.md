@@ -1,6 +1,14 @@
 # PhoneBook
 
 A microservice to determine the country by phone number.
+```
+To compile: mvn clean install
+To run: mvn spring-boot:run
+To launch tests: mvn test
+To launch tests with reports generation: mvn surefire-report:report
+```
+After running go to the browser and browse to [address](http://localhost:8080/)
+
 
 The user enters a phone number, the system validates it and displays the country or error message.
 For country codes use the table on [the page](https://en.wikipedia.org/wiki/List_of_country_calling_codes), it is necessary to load data from it

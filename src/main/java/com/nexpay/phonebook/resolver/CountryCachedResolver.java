@@ -34,7 +34,6 @@ public class CountryCachedResolver implements CountryResolver {
 
     @Override
     public CodeCountries resolve(String phoneNumber) {
-        var result = tree.getCountries(phoneNumber);
-        return result != null ? result : CodeCountries.of();
+        return tree.getCountries(phoneNumber);
     }
 }
