@@ -1,6 +1,11 @@
 package com.nexpay.phonebook.rest;
 
-import org.json.JSONArray;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -65,8 +67,8 @@ class CountryResolverControllerIntegrationTest {
         assertNotNull(response);
         assertTrue(response.getBoolean("error"));
         assertEquals("Country is not resolved by phone " + phone, response.get("msg"));
-        assertEquals("null", response.optString("phoneCode"));
-        assertEquals(new JSONArray(), response.optJSONArray("countries"));
+        assertTrue(response.isNull("phoneCode"));
+        assertEquals(0, response.optJSONArray("countries").length());
     }
 
     JSONObject postCountryResolve(
