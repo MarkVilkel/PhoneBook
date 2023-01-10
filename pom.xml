@@ -17,6 +17,7 @@
         <webjars-locator>0.46</webjars-locator>
         <jquery>3.6.3</jquery>
         <bootstrap>5.2.3</bootstrap>
+        <json>20220924</json>
     </properties>
 
     <parent>
@@ -78,10 +79,22 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vaadin.external.google</groupId>
+                    <artifactId>android-json</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -1,5 +1,13 @@
 package com.nexpay.phonebook.scraper;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -8,9 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.nexpay.phonebook.utils.ProxyUtils;
 
 @Service
 public class PhoneCountryScrapeService implements PhoneCountryService {
@@ -20,13 +26,23 @@ public class PhoneCountryScrapeService implements PhoneCountryService {
     @Value("${phone.country.data.source.url}")
     private String url;
 
+    @Value("${http.proxyHost:}")
+    private String proxyHost;
+
     @Override
     public List<PhoneCodeCountry> scrapeCodes() throws IOException {
         LOGGER.info("Scraping phone codes and countries from {}", url);
 
         List<PhoneCodeCountry> result = new ArrayList<>();
 
-        var document = Jsoup.connect(url).get();
+        var connection = Jsoup.connect(url);
+        var proxy = ProxyUtils.getSystemHttpProxy(proxyHost);
+        if (proxy != null) {
+            LOGGER.info("Using proxy {}", proxy);
+            connection.proxy(proxy);
+        }
+        var document = connection.get();
+
         var tables = document.getElementsByClass("wikitable sortable");
 
         //The first table is that what we want for this task
